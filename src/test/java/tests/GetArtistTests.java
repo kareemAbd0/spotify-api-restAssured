@@ -2,18 +2,30 @@ package tests;
 
 import API.artists.GetArtist;
 import POJO.Artist;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.restassured.response.Response;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import static io.restassured.RestAssured.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;
+
 public class GetArtistTests extends BaseTest {
 
+    JsonNode artistNode;
+
+    @BeforeClass
+    public void setup() {
+        artistNode = testData.get("artist");
+    }
 
     @Test
     public void testGetArtistResponseCode() {
 
-        GetArtist getArtist = new GetArtist("0TnOYISbd1XYRBk9myaseg");
+        String artistId = artistNode.get("id").asText();
+
+        GetArtist getArtist = new GetArtist(artistId);
         given().
                 baseUri(baseURL).
                 auth().oauth2(token).
@@ -28,7 +40,9 @@ public class GetArtistTests extends BaseTest {
     @Test
     public void testGetArtistResponseHeaders() {
 
-        GetArtist getArtist = new GetArtist("0TnOYISbd1XYRBk9myaseg");
+        String artistId = artistNode.get("id").asText();
+
+        GetArtist getArtist = new GetArtist(artistId);
         given().
                 baseUri(baseURL).
                 auth().oauth2(token).
@@ -44,7 +58,9 @@ public class GetArtistTests extends BaseTest {
 
     @Test void testGetArtistResponseTime() {
 
-        GetArtist getArtist = new GetArtist("0TnOYISbd1XYRBk9myaseg");
+        String artistId = artistNode.get("id").asText();
+
+        GetArtist getArtist = new GetArtist(artistId);
         given().
                 baseUri(baseURL).
                 auth().oauth2(token).
@@ -62,7 +78,9 @@ public class GetArtistTests extends BaseTest {
     public void testGetArtistResponseBodySchema() {
 
 
-        GetArtist getArtist = new GetArtist("0TnOYISbd1XYRBk9myaseg");
+        String artistId = artistNode.get("id").asText();
+
+        GetArtist getArtist = new GetArtist(artistId);
         given().
                 baseUri(baseURL).
                 auth().oauth2(token).
@@ -76,7 +94,9 @@ public class GetArtistTests extends BaseTest {
     @Test
     public void testIfResponseIDEqualToRequestID() {
 
-        GetArtist myGetArtist = new GetArtist("0TnOYISbd1XYRBk9myaseg");
+        String artistId = artistNode.get("id").asText();
+
+        GetArtist myGetArtist = new GetArtist(artistId);
 
         Artist artistPojo;
        artistPojo = given().
@@ -95,13 +115,15 @@ public class GetArtistTests extends BaseTest {
     @Test
     public void testIfResponseHasEmptyStrings(){
 
-        GetArtist myGetArtist = new GetArtist("0TnOYISbd1XYRBk9myaseg");
+        String artistId = artistNode.get("id").asText();
+
+        GetArtist getArtist = new GetArtist(artistId);
 
         given().
                 baseUri(baseURL).
                 auth().oauth2(token).
         when().
-                get(myGetArtist.getEndPoint()).
+                get(getArtist.getEndPoint()).
         then().
                 statusCode(200).
                 body(matchesJsonSchemaInClasspath("schemas/artist-schema-content.json"));
@@ -112,19 +134,54 @@ public class GetArtistTests extends BaseTest {
     @Test
     public void testIfArtistNameIsMatching() {
 
-        GetArtist myGetArtist = new GetArtist("0TnOYISbd1XYRBk9myaseg");
+        String artistId = artistNode.get("id").asText();
+
+        GetArtist getArtist = new GetArtist(artistId);
 
         Artist artistPojo;
         artistPojo = given().
                 baseUri(baseURL).
                 auth().oauth2(token).
                 when().
-                get(myGetArtist.getEndPoint()).
+                get(getArtist.getEndPoint()).
                 then().
                 statusCode(200).
                 extract().as(Artist.class);
 
         assertThat(artistPojo.getName()).isEqualTo("Pitbull");
+    }
+
+    @Test
+    public void testInvalidIDResponseCode() {
+        String artistId = artistNode.get("invalid_id").asText();
+        GetArtist getArtist = new GetArtist(artistId);
+
+        given().
+                baseUri(baseURL).
+                auth().oauth2(token).
+       when().
+                get(getArtist.getEndPoint()).
+       then().
+                log().body().
+                assertThat().
+                statusCode(404);
+
+    }
+
+    @Test
+    public void testInvalidIDResponseMessage() {
+        String artistId = artistNode.get("invalid_id").asText();
+        GetArtist getArtist = new GetArtist(artistId);
+       Response resp = given().
+                baseUri(baseURL).
+                auth().oauth2(token).
+        when().
+                get(getArtist.getEndPoint()).
+        then().
+                log().body().
+                statusCode(404).extract().response();
+
+       assertThat(resp.jsonPath().getString("error.message")).isEqualTo("Resource not found");
     }
 
 
