@@ -14,3 +14,4 @@ public class BaseTest {
          token = auth.getToken();
     }
 }
+

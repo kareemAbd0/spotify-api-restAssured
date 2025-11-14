@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Spotify Artist (Non-Empty Strings)",
+  "description": "Validates the artist structure, ensuring strings are not empty.",
+  "type": "object",
+  "definitions": {
+    "nonEmptyString": {
+      "description": "A string that cannot be empty.",
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "properties": {
+    "external_urls": {
+      "type": "object",
+      "properties": {
+        "spotify": { "$ref": "#/definitions/nonEmptyString" }
+      },
+      "required": ["spotify"]
+    },
+    "followers": {
+      "type": "object",
+      "properties": {
+        "href": {
+          "description": "Can be null, but if it's a string, it cannot be empty.",
+          "type": ["string", "null"],
+          "minLength": 1
+        },
+        "total": { "type": "integer" }
+      },
+      "required": ["href", "total"]
+    },
+    "genres": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/nonEmptyString" }
+    },
+    "href": { "$ref": "#/definitions/nonEmptyString" },
+    "id": { "$ref": "#/definitions/nonEmptyString" },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": { "$ref": "#/definitions/nonEmptyString" },
+          "height": { "type": ["integer", "null"] },
+          "width": { "type": ["integer", "null"] }
+        },
+        "required": ["url", "height", "width"]
+      }
+    },
+    "name": { "$ref": "#/definitions/nonEmptyString" },
+    "popularity": { "type": "integer" },
+    "type": { "$ref": "#/definitions/nonEmptyString" },
+    "uri": { "$ref": "#/definitions/nonEmptyString" }
+  },
+  "required": [
+    "external_urls",
+    "followers",
+    "genres",
+    "href",
+    "id",
+    "images",
+    "name",
+    "popularity",
+    "type",
+    "uri"
+  ]
+}
