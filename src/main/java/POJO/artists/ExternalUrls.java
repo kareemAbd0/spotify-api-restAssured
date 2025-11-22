@@ -1,4 +1,4 @@
-package POJO;
+package POJO.artists;
 
 public class ExternalUrls {
     private String spotify;

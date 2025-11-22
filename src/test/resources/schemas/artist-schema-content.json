@@ -35,7 +35,7 @@
       "items": { "$ref": "#/definitions/nonEmptyString" }
     },
     "href": { "$ref": "#/definitions/nonEmptyString" },
-    "id": { "$ref": "#/definitions/nonEmptyString" },
+    "id1": { "$ref": "#/definitions/nonEmptyString" },
     "images": {
       "type": "array",
       "items": {

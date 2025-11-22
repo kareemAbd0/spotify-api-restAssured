@@ -1,6 +1,6 @@
 package utility;
 
-import POJO.CreateTokenPOJO;
+import POJO.artists.CreateTokenPOJO;
 import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

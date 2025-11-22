@@ -1,4 +1,5 @@
 package tests;
+import API.BaseAPI;
 import org.testng.annotations.BeforeSuite;
 import utility.Authentication;
 import static io.restassured.RestAssured.*;
@@ -10,9 +11,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class BaseTest {
-    protected String token;
+    protected BaseAPI baseAPI;
     public JsonNode testData;
-    protected final String baseURL = "https://api.spotify.com/v1";
 
     @BeforeSuite
     public void loadData() throws IOException {
@@ -22,13 +22,13 @@ public class BaseTest {
     }
 
     @BeforeClass
-    public void getToken(){
+    public void BaseSetup(){
 
         JsonNode authorizationNode = testData.get("authorization");
         String clientId = authorizationNode.get("client_id").asText();
         String clientSecret = authorizationNode.get("client_secret").asText();
         Authentication auth = new Authentication(clientId, clientSecret);
-        token = auth.getToken();
+        baseAPI = new BaseAPI(auth);
     }
 }
 

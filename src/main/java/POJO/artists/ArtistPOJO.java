@@ -1,8 +1,8 @@
-package POJO;
+package POJO.artists;
 
 import java.util.List;
 
-public class Artist {
+public class ArtistPOJO {
     private ExternalUrls external_urls;
 
     private Followers followers;

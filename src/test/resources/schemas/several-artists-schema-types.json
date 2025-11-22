@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Spotify Several Artists Response",
+  "type": "object",
+  "properties": {
+    "artists": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "external_urls": {
+            "type": "object",
+            "properties": {
+              "spotify": { "type": "string" }
+            },
+            "required": ["spotify"]
+          },
+          "followers": {
+            "type": "object",
+            "properties": {
+              "href": { "type": ["string", "null"] },
+              "total": { "type": "integer" }
+            },
+            "required": ["href", "total"]
+          },
+          "genres": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "href": { "type": "string" },
+          "id": { "type": "string" },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": { "type": "string" },
+                "height": { "type": ["integer", "null"] },
+                "width": { "type": ["integer", "null"] }
+              },
+              "required": ["url", "height", "width"]
+            }
+          },
+          "name": { "type": "string" },
+          "popularity": { "type": "integer" },
+          "type": {
+            "type": "string",
+            "enum": ["artist"]
+          },
+          "uri": { "type": "string" }
+        },
+        "required": [
+          "external_urls",
+          "followers",
+          "genres",
+          "href",
+          "id",
+          "images",
+          "name",
+          "popularity",
+          "type",
+          "uri"
+        ]
+      }
+    }
+  },
+  "required": ["artists"]
+}

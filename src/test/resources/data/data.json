@@ -4,9 +4,13 @@
     "client_secret": "a483644ea6b74f379f7a2d5b9f6990b6"
   },
   "artist": {
-    "id": "0TnOYISbd1XYRBk9myaseg",
-    "invalid_id": "0TppYISpp1XYRBk9myppeg"
-
+    "id1": "0TnOYISbd1XYRBk9myaseg",
+    "id2": "2CIMQHirSU0MQqyYHq0eOx",
+    "id3": "1vCWHaC5f2uS3yhpwWbIA6",
+    "invalid_id": "0TppYISpp145YRBkdmdpeg",
+    "name1": "Pitbull",
+    "name2": "deadmau5",
+    "name3": "Avicii"
   }
 
 }
